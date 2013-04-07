@@ -38,7 +38,7 @@ module.exports = (robot) ->
     match = Match.create( msg, player, competitor, result, score_a, score_b )
     msg.send match.result()
 
-  robot.respond /(.*) (beat|lost to) (.*) (.*) to (.*) at ping pong/i, (msg) ->
+  robot.respond /(.*) (beat|lost to) (.*) at ping pong (.*) to (.*)/i, (msg) ->
     player     = msg.match[1]
     result     = msg.match[2]
     competitor = msg.match[3]
