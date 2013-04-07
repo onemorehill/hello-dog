@@ -9,8 +9,8 @@
 #   None
 #
 # Commands:
-#   hubot I lost to <competitor> at ping pong (OPTIONAL)[<score_1> to <score_2>] - Adds 1 loss to user and 1 win to competitor; also updates player rankings for both current user and competitor.
-#   hubot I beat <user> at ping pong (OPTIONAL)[<score_1> to <score_2>] - Adds 1 win to user and 1 loss to competitor; also updagtes player rankings for both current user and competitor.
+#   hubot I lost to <user> (OPTIONAL)[<score_1> to <score_2>] at ping pong - Adds 1 loss to user and 1 win to competitor; also updates player rankings for both current user and competitor.
+#   hubot I beat <user> (OPTIONAL)[<score_1> to <score_2>] at ping pong - Adds 1 win to user and 1 loss to competitor; also updagtes player rankings for both current user and competitor.
 #   hubot ping pong leaderboard - Displays player leaderboard (default sort is by "wins").
 #   hubot ping pong leaderboard by <attribute> - Displays player leaderboard sorted by attributes (acceptable values: "wins", "losses", "rating").
 #   hubot last <number> ping pong matches - Displays last n matches
@@ -38,7 +38,7 @@ module.exports = (robot) ->
     match = Match.create( msg, player, competitor, result, score_a, score_b )
     msg.send match.result()
 
-  robot.respond /(.*) (beat|lost to) (.*) at ping pong (.*) to (.*)/i, (msg) ->
+  robot.respond /(.*) (beat|lost to) (.*) (.*) to (.*) at ping pong/i, (msg) ->
     player     = msg.match[1]
     result     = msg.match[2]
     competitor = msg.match[3]
