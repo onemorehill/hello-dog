@@ -27,6 +27,17 @@ module.exports = (robot) ->
     players: {}
     matches: []
 
+  # Score is now optional
+  robot.respond /(.*) (beat|lost to) (.*) at ping pong/i, (msg) ->
+    player     = msg.match[1]
+    result     = msg.match[2]
+    competitor = msg.match[3]
+    score_a    = 0
+    score_b    = 0
+
+    match = Match.create( msg, player, competitor, result, score_a, score_b )
+    msg.send match.result()
+
   robot.respond /(.*) (beat|lost to) (.*) (.*) to (.*) at ping pong/i, (msg) ->
     player     = msg.match[1]
     result     = msg.match[2]
@@ -34,10 +45,7 @@ module.exports = (robot) ->
     score_a    = msg.match[4]
     score_b    = msg.match[5]
 
-    if player.toUpperCase().trim() == "I"
-      player = msg.message.user.name
-
-    match = Match.create( player, competitor, result, score_a, score_b )
+    match = Match.create( msg, player, competitor, result, score_a, score_b )
     msg.send match.result()
 
   robot.respond /ping pong leaderboard\s?(by)?\s?(.*)?/i, (msg) ->
@@ -178,6 +186,16 @@ module.exports = (robot) ->
       .value()
 
   Match.create = (player, competitor, result, score_a, score_b) ->
+    if player.toUpperCase().trim() == "I"
+      player = msg.message.user.name
+
+    # Find the user by hipchat mention_name from hubot's brain.
+    #
+    # Returns a user.name object if a user is found.
+    if competitor.indexOf('@',0) == 0
+      userByMentionName = robot.brain.userForMentionName competitor.replace('@','').trim()
+      competitor = userByMentionName.name
+      
     if result == "beat"
       winner_name = player
       loser_name  = competitor
