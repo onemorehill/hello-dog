@@ -185,7 +185,7 @@ module.exports = (robot) ->
       .map( (obj) -> new Match obj )
       .value()
 
-  Match.create = (player, competitor, result, score_a, score_b) ->
+  Match.create = (msg, player, competitor, result, score_a, score_b) ->
     if player.toUpperCase().trim() == "I"
       player = msg.message.user.name
 
