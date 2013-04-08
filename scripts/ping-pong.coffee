@@ -49,7 +49,7 @@ module.exports = (robot) ->
     msg.send match.result()
 
   robot.respond /leaderboard\s?(by)?\s?(.*)?/i, (msg) ->
-    attribute = msg.match[2] || "wins"
+    attribute = msg.match[2] || "rating"
     msg.send PlayerRecords.by(attribute)
 
   robot.respond /last (.*) matches/i, (msg) ->
